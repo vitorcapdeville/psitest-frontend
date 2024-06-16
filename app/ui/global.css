@@ -16,3 +16,9 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+@layer components {
+  .form-link {
+    @apply inline-block mt-4 text-sm text-blue-500 align-baseline hover:text-blue-800;
+  }
+}
