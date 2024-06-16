@@ -1,0 +1,14 @@
+services:
+  frontend:
+    container_name: psitest-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - mynetwork
+    env_file: ".env.docker"
+networks:
+  mynetwork:
+    external: true
