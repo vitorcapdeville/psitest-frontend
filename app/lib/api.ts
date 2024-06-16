@@ -17,16 +17,24 @@ export async function login(email: string, password: string): Promise<User> {
   return user.json();
 }
 
-export async function signup(email: string, password: string): Promise<User> {
+export async function signup(
+  email: string,
+  password: string,
+  name: string,
+  matricula: string,
+): Promise<User> {
   let formData = new FormData();
   formData.append('username', email);
   formData.append('password', password);
 
-  const user = await fetch(`${process.env.GATEWAY_URL}/signup`, {
-    method: 'POST',
-    body: formData,
-    cache: 'no-store',
-  });
+  const user = await fetch(
+    `${process.env.GATEWAY_URL}/signup?name=${name}&matricula=${matricula}`,
+    {
+      method: 'POST',
+      body: formData,
+      cache: 'no-store',
+    },
+  );
   if (!user.ok) {
     throw new Error('Failed to fetch data');
   }

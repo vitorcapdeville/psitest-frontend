@@ -29,12 +29,14 @@ export async function signUp(
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
   const confirmPassword = formData.get('confirmPassword') as string;
+  const name = formData.get('name') as string;
+  const matricula = formData.get('matricula') as string;
   if (password !== confirmPassword) {
     return 'Passwords do not match.';
   }
 
   try {
-    await signup(email, password);
+    await signup(email, password, name, matricula);
   } catch (error) {
     return 'Failed to sign up.';
   }
