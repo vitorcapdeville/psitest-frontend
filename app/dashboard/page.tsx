@@ -1,13 +1,13 @@
-import { auth } from "@/auth";
+import { auth } from '@/auth';
 
 export default async function MainPage() {
   const session = await auth();
 
-  console.log(session?.user);
-
   return (
     <main>
-      <div><h1>Ola Mundo</h1></div>
+      <div>
+        <h1>Ola {session?.user?.email}</h1>
+      </div>
     </main>
   );
 }

@@ -40,3 +40,51 @@ export async function signup(
   }
   return user.json();
 }
+
+export async function forgotPassword(email: string): Promise<void> {
+  const response = await fetch(`${process.env.GATEWAY_URL}/forgot-password`, {
+    method: 'PUT',
+    body: email,
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+}
+
+export async function validateResetPasswordCode(
+  email: string,
+  code: string,
+): Promise<void> {
+  const response = await fetch(
+    `${process.env.GATEWAY_URL}/validate-reset-password-code`,
+    {
+      method: 'POST',
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, code }),
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+}
+
+export async function resetPassword(email: string, newPassword: string, code: string) {
+  const response = await fetch(`${process.env.GATEWAY_URL}/reset-password`, {
+    method: 'PUT',
+    cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, new_password: newPassword, code }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+}

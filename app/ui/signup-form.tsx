@@ -1,6 +1,6 @@
 'use client';
 
-import { signUp } from '@/app/lib/actions';
+import { signupAction } from '@/app/lib/actions';
 import { Button } from '@/app/ui/button';
 import displayErrorMessage from '@/app/ui/error-on-form';
 import { lusitana } from '@/app/ui/fonts';
@@ -10,13 +10,13 @@ import {
   AtSymbolIcon,
   KeyIcon,
   UserIcon,
-  WalletIcon
+  WalletIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useFormState, useFormStatus } from 'react-dom';
 
 export default function SignUpForm() {
-  const [errorMessage, dispatch] = useFormState(signUp, undefined);
+  const [errorMessage, dispatch] = useFormState(signupAction, undefined);
 
   return (
     <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
@@ -46,12 +46,14 @@ export default function SignUpForm() {
             label="Password"
             placeholder="Enter password"
             Icon={KeyIcon}
+            type="password"
           />
           <FormField
             id="confirmPassword"
             label="Confirm password"
             placeholder="Confirm password"
             Icon={KeyIcon}
+            type="password"
           />
         </div>
         <SignUpButton />
