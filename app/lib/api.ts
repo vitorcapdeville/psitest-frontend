@@ -1,20 +1,20 @@
 'use server';
-import type { User } from '@/app/lib/definitions';
+import type { Token } from '@/app/lib/definitions';
 
-export async function login(email: string, password: string): Promise<User> {
+export async function login(email: string, password: string): Promise<Token> {
   let formData = new FormData();
   formData.append('username', email);
   formData.append('password', password);
 
-  const user = await fetch(`${process.env.GATEWAY_URL}/login`, {
+  const token = await fetch(`${process.env.GATEWAY_URL}/login`, {
     method: 'POST',
     body: formData,
   });
 
-  if (!user.ok) {
+  if (!token.ok) {
     throw new Error('Failed to fetch data');
   }
-  return user.json();
+  return token.json();
 }
 
 export async function signup(
@@ -22,7 +22,7 @@ export async function signup(
   password: string,
   name: string,
   matricula: string,
-): Promise<User> {
+): Promise<Token> {
   let formData = new FormData();
   formData.append('username', email);
   formData.append('password', password);
@@ -74,7 +74,11 @@ export async function validateResetPasswordCode(
   }
 }
 
-export async function resetPassword(email: string, newPassword: string, code: string) {
+export async function resetPassword(
+  email: string,
+  newPassword: string,
+  code: string,
+) {
   const response = await fetch(`${process.env.GATEWAY_URL}/reset-password`, {
     method: 'PUT',
     cache: 'no-store',
