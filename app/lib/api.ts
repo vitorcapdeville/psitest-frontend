@@ -1,5 +1,10 @@
 'use server';
-import type { Token } from '@/app/lib/definitions';
+import type {
+  Token,
+  UserInfo,
+  QuestionariosName,
+  QuestionariosQuestions,
+} from '@/app/lib/definitions';
 
 export async function login(email: string, password: string): Promise<Token> {
   let formData = new FormData();
@@ -91,4 +96,70 @@ export async function resetPassword(
   if (!response.ok) {
     throw new Error('Failed to fetch data');
   }
+}
+
+export async function getUser(token: string): Promise<UserInfo> {
+  const response = await fetch(`${process.env.GATEWAY_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return response.json() as Promise<UserInfo>;
+}
+
+async function getQuestionarios(query: string) {
+  const response = await fetch(`${process.env.GATEWAY_URL}/questionarios`, {
+    method: 'POST',
+    cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return response.json();
+}
+
+export async function getQuestionariosNames(): Promise<
+  Array<QuestionariosName>
+> {
+  const query = `
+    query {
+      questionarios {
+        nome
+        id
+      }
+    }
+  `;
+
+  return getQuestionarios(query);
+}
+
+export async function getQuestionariosQuestions(
+  id: string,
+): Promise<Array<QuestionariosQuestions>> {
+  const query = `
+    query {
+      questionarios(id:${id}){
+        nome
+        perguntas{
+          descricao
+          alternativas{
+            descricao
+          }
+        }
+      }
+    }
+  `;
+
+  return getQuestionarios(query);
 }

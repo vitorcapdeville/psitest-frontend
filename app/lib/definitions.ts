@@ -12,3 +12,20 @@ export type User = {
   verified: boolean;
   access_token: string;
 };
+
+export type UserInfo = {
+  email: string;
+  name: string;
+  matricula: string;
+  full_name: string | undefined;
+};
+
+export type QuestionariosName = {
+  nome: string;
+  id: string;
+};
+
+export type QuestionariosQuestions = {
+  nome: string;
+  id: string;
+};
