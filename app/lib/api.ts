@@ -163,3 +163,21 @@ export async function getQuestionariosQuestions(
 
   return getQuestionarios(query);
 }
+
+export async function validateEmail(email: string) {
+  const response = await fetch(
+    `${process.env.NEUTRINO_URL}/email-validate?email=${email}`,
+    {
+      method: 'GET',
+      headers: {
+        'User-ID': 'vitorcapdeville',
+        'API-Key': 'hB3QpYrfrhqA69nTDohT3e0zx539ZWWLKIQkLh4pUoy6qNMK',
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return response.json();
+}

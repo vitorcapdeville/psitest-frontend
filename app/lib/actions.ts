@@ -1,7 +1,13 @@
 'use server';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-import { forgotPassword, signup, validateResetPasswordCode, resetPassword } from './api';
+import {
+  forgotPassword,
+  signup,
+  validateResetPasswordCode,
+  resetPassword,
+  validateEmail,
+} from './api';
 import { redirect } from 'next/navigation';
 
 export async function authenticate(
@@ -32,6 +38,11 @@ export async function signupAction(
   const confirmPassword = formData.get('confirmPassword') as string;
   const name = formData.get('name') as string;
   const matricula = formData.get('matricula') as string;
+  const emailCheck = await validateEmail(email);
+  console.log(emailCheck);
+  if (!emailCheck.valid) {
+    return 'Invalid email.';
+  }
   if (password !== confirmPassword) {
     return 'Passwords do not match.';
   }
