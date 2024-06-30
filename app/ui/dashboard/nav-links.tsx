@@ -18,6 +18,11 @@ const links = [
     href: '/dashboard/questionarios',
     icon: DocumentDuplicateIcon,
   },
+  {
+    name: 'Respostas',
+    href: '/dashboard/respostas',
+    icon: DocumentDuplicateIcon,
+  },
 ];
 
 export default function NavLinks() {

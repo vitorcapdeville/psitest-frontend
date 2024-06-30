@@ -181,3 +181,31 @@ export async function validateEmail(email: string) {
   }
   return response.json();
 }
+
+export async function getQuestionariosEnviados(email: string) {
+  const response = await fetch(
+    `${process.env.GATEWAY_URL}/respostas?email=${email}`,
+    {
+      method: 'GET',
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return response.json();
+}
+
+export async function getRespostasEnvio(envio_id: string) {
+  const response = await fetch(
+    `${process.env.GATEWAY_URL}/respostas/${envio_id}`,
+    {
+      method: 'GET',
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return response.json();
+}
