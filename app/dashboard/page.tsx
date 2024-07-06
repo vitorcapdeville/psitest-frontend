@@ -6,9 +6,9 @@ import { UserInfo } from '@/app/lib/definitions';
 function UserInfoDisplay({ userInfo }: { userInfo: UserInfo }) {
   return (
     <div>
-      <p className="text-sm">Name: John Doe</p>
-      <p className="text-sm">E-mail: johndoe@example.com</p>
-      <p className="text-sm">Registry Number: 123456</p>
+      <p className="text-sm">Nome: {userInfo.name}</p>
+      <p className="text-sm">E-mail: {userInfo.email}</p>
+      <p className="text-sm">Matricula: {userInfo.matricula}</p>
     </div>
   );
 }
