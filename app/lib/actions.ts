@@ -3,6 +3,7 @@ import {
   enviarQuestionario,
   forgotPassword,
   resetPassword,
+  responderQuestionario,
   signup,
   validateEmail,
   validateResetPasswordCode,
@@ -120,8 +121,27 @@ export async function enviarQuestionarioAction(
   try {
     await enviarQuestionario(psicologo_email, paciente_email, questionario_id);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return 'Failed to send questionnaire.';
   }
   return redirect(`/dashboard/respostas`);
+}
+
+export async function enviarRespostasQuestionarioAction(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  const envio_id = formData.get('envio_id') as string;
+  const data = [];
+  for (let [key, value] of formData.entries()) {
+    if (key !== 'envio_id') {
+      data.push({ pergunta_id: key, alternativa_id: value, envio_id });
+    }
+  }
+  try {
+    await responderQuestionario(data);
+  } catch (error) {
+    return 'Failed to send answers.';
+  }
+  return redirect(`/responder/email/sucesso`);
 }

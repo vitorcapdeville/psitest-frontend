@@ -10,9 +10,11 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 export const QuestionariosComDetalhes = ({
   questionario,
   respostas = null,
+  back = true,
 }: {
   questionario: QuestionarioQuestionsWithAlternatives;
   respostas: Respostas | null;
+  back?: boolean;
 }) => {
   const router = useRouter();
 
@@ -27,9 +29,11 @@ export const QuestionariosComDetalhes = ({
     <div className="bg-background text-foreground flex flex-col items-center space-y-4 p-4">
       <div className="w-full max-w-md p-6">
         <div className="mb-4 flex items-center justify-center">
-          <button onClick={() => router.back()}>
-            <ArrowLeftIcon className="w-6" />
-          </button>
+          {back && (
+            <button onClick={() => router.back()}>
+              <ArrowLeftIcon className="w-6" />
+            </button>
+          )}
           <h1 className="flex-grow text-center text-lg font-bold">
             {questionario.nome}
           </h1>
@@ -42,9 +46,10 @@ export const QuestionariosComDetalhes = ({
             );
             const respostaEscolhida = respostaEscolhidaObj
               ? respostaEscolhidaObj.alternativa_id
-                  : undefined;
+              : undefined;
             return (
               <Dropdown
+                questown
                 question={pergunta}
                 respostaEscolhida={respostaEscolhida}
                 key={pergunta.id}

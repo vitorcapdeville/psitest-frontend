@@ -201,6 +201,21 @@ export async function getQuestionariosEnviados(email: string) {
   return response.json();
 }
 
+export async function getQuestionarioPaciente(email: string) {
+  const response = await fetch(
+    `${process.env.GATEWAY_URL}/envios?email=${email}`,
+    {
+      method: 'GET',
+      cache: 'no-store',
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return response.json();
+}
+
 export async function getRespostasEnvio(envio_id: string): Promise<Respostas> {
   const response = await fetch(
     `${process.env.GATEWAY_URL}/respostas/${envio_id}`,
@@ -232,6 +247,26 @@ export async function enviarQuestionario(
       paciente_email,
       questionario_id,
     }),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+}
+
+export async function responderQuestionario(
+  respostas: Array<{
+    pergunta_id: string;
+    alternativa_id: string;
+    envio_id: string;
+  }>,
+): Promise<void> {
+  const response = await fetch(`${process.env.GATEWAY_URL}/responder`, {
+    method: 'POST',
+    cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(respostas),
   });
   if (!response.ok) {
     throw new Error('Failed to fetch data');
