@@ -8,7 +8,6 @@ const tableCellStyle = 'border border-border p-2';
 export default async function Page() {
   const session = await auth();
   let envios = await getQuestionariosEnviados(session?.user?.email);
-  console.log(envios);
   return (
     <div className="bg-background text-foreground flex min-h-screen flex-col items-center">
       <h1 className="text-primary mb-4 text-xl font-bold">Acompanhar envios</h1>

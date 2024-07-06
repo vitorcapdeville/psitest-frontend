@@ -116,11 +116,12 @@ export async function enviarQuestionarioAction(
   const session = await auth();
   const psicologo_email = session?.user?.email as string;
   const paciente_email = formData.get('email') as string;
-  const questionario = formData.get('questionario') as string;
+  const questionario_id = formData.get('questionario_id') as string;
   try {
-    await enviarQuestionario(psicologo_email, paciente_email, questionario);
+    await enviarQuestionario(psicologo_email, paciente_email, questionario_id);
   } catch (error) {
-    return 'Failed to change password.';
+    console.log(error)
+    return 'Failed to send questionnaire.';
   }
   return redirect(`/dashboard/respostas`);
 }

@@ -16,7 +16,7 @@ const sharedClasses = {
 
 export default function Page({ params }: { params: { id: string } }) {
   const router = useRouter();
-  const [questionario, setQuestionario] = useState('');
+  const [questionario, setQuestionario] = useState(null);
   const [errorMessage, dispatch] = useFormState(
     enviarQuestionarioAction,
     undefined,
@@ -25,10 +25,11 @@ export default function Page({ params }: { params: { id: string } }) {
   useEffect(() => {
     async function fetchData() {
       let questionarios = await getQuestionarioQuestions(params.id);
-      setQuestionario(questionarios.nome);
+      setQuestionario(questionarios);
     }
     fetchData();
   }, [params.id]);
+  if (!questionario) return <div>Carregando...</div>;
   return (
     <form action={dispatch}>
       <div className="bg-background text-foreground flex flex-col items-center p-4">
@@ -51,10 +52,8 @@ export default function Page({ params }: { params: { id: string } }) {
                 name="email"
                 placeholder="Digite o email do paciente"
                 className={sharedClasses.input}
+                required
               />
-              {/* <span className={sharedClasses.editIcon}>
-              <img aria-hidden="true" alt="edit-icon" src="https://openui.fly.dev/openui/16x16.svg?text=✏️" />
-            </span> */}
             </div>
           </div>
           <div className="mb-6">
@@ -65,13 +64,17 @@ export default function Page({ params }: { params: { id: string } }) {
               <input
                 type="text"
                 name="questionario"
-                value={questionario}
+                value={questionario.nome}
                 className={sharedClasses.input}
                 readOnly
               />
-              {/* <span className={sharedClasses.editIcon}>
-              <img aria-hidden="true" alt="edit-icon" src="https://openui.fly.dev/openui/16x16.svg?text=✏️" />
-            </span> */}
+              <input
+                type="text"
+                name="questionario_id"
+                value={questionario.id}
+                readOnly
+                className="hidden"
+              />
             </div>
           </div>
         </div>

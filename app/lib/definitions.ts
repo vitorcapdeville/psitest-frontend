@@ -38,6 +38,7 @@ export type Question = {
 
 export type QuestionarioQuestionsWithAlternatives = {
   nome: string;
+  id: string;
   perguntas: Array<Question>;
 };
 
