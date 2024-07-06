@@ -7,7 +7,6 @@ export const Dropdown = ({
   question: Question;
   respostaEscolhida: string | null;
   }) => {
-  // console.log(question)
   return (
     <div className="mb-4">
       <label className="text-muted-foreground mb-2 block text-lg">

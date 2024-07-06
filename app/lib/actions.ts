@@ -1,14 +1,17 @@
 'use server';
+import {
+  enviarQuestionario,
+  forgotPassword,
+  resetPassword,
+  signup,
+  validateEmail,
+  validateResetPasswordCode,
+} from '@/app/lib/api';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-import {
-  forgotPassword,
-  signup,
-  validateResetPasswordCode,
-  resetPassword,
-  validateEmail,
-} from './api';
 import { redirect } from 'next/navigation';
+import { getUser } from '@/app/lib/api';
+import { auth } from '@/auth';
 
 export async function authenticate(
   prevState: string | undefined,
@@ -104,4 +107,20 @@ export async function resetPasswordAction(
   loginData.append('email', email);
   loginData.append('password', newPassword);
   return authenticate(prevState, formData);
+}
+
+export async function enviarQuestionarioAction(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  const session = await auth();
+  const psicologo_email = session?.user?.email as string;
+  const paciente_email = formData.get('email') as string;
+  const questionario = formData.get('questionario') as string;
+  try {
+    await enviarQuestionario(psicologo_email, paciente_email, questionario);
+  } catch (error) {
+    return 'Failed to change password.';
+  }
+  return redirect(`/dashboard/respostas`);
 }

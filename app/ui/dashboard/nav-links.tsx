@@ -3,7 +3,8 @@
 import {
   UserGroupIcon,
   HomeIcon,
-  DocumentDuplicateIcon,
+  DocumentArrowUpIcon,
+  DocumentArrowDownIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -16,12 +17,12 @@ const links = [
   {
     name: 'Questionários',
     href: '/dashboard/questionarios',
-    icon: DocumentDuplicateIcon,
+    icon: DocumentArrowUpIcon,
   },
   {
     name: 'Respostas',
     href: '/dashboard/respostas',
-    icon: DocumentDuplicateIcon,
+    icon: DocumentArrowDownIcon,
   },
 ];
 

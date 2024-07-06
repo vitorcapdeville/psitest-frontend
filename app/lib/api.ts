@@ -214,3 +214,27 @@ export async function getRespostasEnvio(envio_id: string): Promise<Respostas> {
   }
   return response.json();
 }
+
+export async function enviarQuestionario(
+  psicologo_email: string,
+  paciente_email: string,
+  questionario: string,
+): Promise<void> {
+  console.log('psicologo_email', psicologo_email);
+  console.log('paciente_email', paciente_email);
+  console.log('questionario', questionario);
+  // const response = await fetch(
+  //   `${process.env.GATEWAY_URL}/enviar-questionario`,
+  //   {
+  //     method: 'POST',
+  //     cache: 'no-store',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ email, questionario }),
+  //   },
+  // );
+  // if (!response.ok) {
+  //   throw new Error('Failed to fetch data');
+  // }
+}
