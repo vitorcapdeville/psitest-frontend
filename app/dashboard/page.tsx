@@ -5,20 +5,11 @@ import { UserInfo } from '@/app/lib/definitions';
 
 function UserInfoDisplay({ userInfo }: { userInfo: UserInfo }) {
   return (
-    <form>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input type="email" id="email" value={userInfo.email} disabled />
-      </div>
-      <div>
-        <label htmlFor="name">Nome:</label>
-        <input type="text" id="name" value={userInfo.name} disabled />
-      </div>
-      <div>
-        <label htmlFor="matricula">Matrícula:</label>
-        <input type="text" id="matricula" value={userInfo.matricula} disabled />
-      </div>
-    </form>
+    <div>
+      <p className="text-sm">Name: John Doe</p>
+      <p className="text-sm">E-mail: johndoe@example.com</p>
+      <p className="text-sm">Registry Number: 123456</p>
+    </div>
   );
 }
 
@@ -28,7 +19,7 @@ export default async function MainPage() {
   try {
     user = await getUser(session?.user?.access_token);
   } catch (error) {
-    console.log("Failed to fetch user data", error)
+    console.log('Failed to fetch user data', error);
   }
 
   return (

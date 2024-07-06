@@ -20,12 +20,33 @@ export type UserInfo = {
   full_name: string | undefined;
 };
 
-export type QuestionariosName = {
+export type QuestionarioName = {
   nome: string;
   id: string;
 };
 
-export type QuestionariosQuestions = {
-  nome: string;
+export type Alternativa = {
   id: string;
+  descricao: string;
+};
+
+export type Question = {
+  id: string;
+  descricao: string;
+  alternativas: Array<Alternativa>;
+};
+
+export type QuestionarioQuestionsWithAlternatives = {
+  nome: string;
+  perguntas: Array<Question>;
+};
+
+export type Respostas = {
+  paciente_email: string;
+  psicologo_email: string;
+  questionario_id: string;
+  respostas: Array<{
+    pergunta_id: string;
+    alternativa_id: string;
+  }>;
 };

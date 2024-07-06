@@ -39,7 +39,6 @@ export async function signupAction(
   const name = formData.get('name') as string;
   const matricula = formData.get('matricula') as string;
   const emailCheck = await validateEmail(email);
-  console.log(emailCheck);
   if (!emailCheck.valid) {
     return 'Invalid email.';
   }

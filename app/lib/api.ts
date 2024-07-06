@@ -2,8 +2,9 @@
 import type {
   Token,
   UserInfo,
-  QuestionariosName,
-  QuestionariosQuestions,
+  QuestionarioName,
+  QuestionarioQuestionsWithAlternatives,
+  Respostas,
 } from '@/app/lib/definitions';
 
 export async function login(email: string, password: string): Promise<Token> {
@@ -126,11 +127,11 @@ async function getQuestionarios(query: string) {
     throw new Error('Failed to fetch data');
   }
 
-  return response.json();
+  return response.json().then((data) => data.data.questionarios);
 }
 
 export async function getQuestionariosNames(): Promise<
-  Array<QuestionariosName>
+  Array<QuestionarioName>
 > {
   const query = `
     query {
@@ -144,16 +145,18 @@ export async function getQuestionariosNames(): Promise<
   return getQuestionarios(query);
 }
 
-export async function getQuestionariosQuestions(
+export async function getQuestionarioQuestions(
   id: string,
-): Promise<Array<QuestionariosQuestions>> {
+): Promise<QuestionarioQuestionsWithAlternatives> {
   const query = `
     query {
       questionarios(id:${id}){
         nome
         perguntas{
+          id
           descricao
           alternativas{
+            id  
             descricao
           }
         }
@@ -161,7 +164,7 @@ export async function getQuestionariosQuestions(
     }
   `;
 
-  return getQuestionarios(query);
+  return getQuestionarios(query).then((data) => data[0]);
 }
 
 export async function validateEmail(email: string) {
@@ -187,6 +190,7 @@ export async function getQuestionariosEnviados(email: string) {
     `${process.env.GATEWAY_URL}/respostas?email=${email}`,
     {
       method: 'GET',
+      cache: 'no-store',
     },
   );
 
@@ -196,11 +200,12 @@ export async function getQuestionariosEnviados(email: string) {
   return response.json();
 }
 
-export async function getRespostasEnvio(envio_id: string) {
+export async function getRespostasEnvio(envio_id: string): Promise<Respostas> {
   const response = await fetch(
     `${process.env.GATEWAY_URL}/respostas/${envio_id}`,
     {
       method: 'GET',
+      cache: 'no-store',
     },
   );
 

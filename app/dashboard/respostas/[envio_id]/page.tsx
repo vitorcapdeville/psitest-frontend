@@ -1,33 +1,35 @@
 'use client';
-import { getRespostasEnvio } from '@/app/lib/api';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getRespostasEnvio, getQuestionarioQuestions } from '@/app/lib/api';
+import { QuestionariosComDetalhes } from '@/app/ui/dashboard/questionarios-com-detalhes';
 
 export default function Page({ params }: { params: { envio_id: string } }) {
-  const router = useRouter();
-  const [respostas, setRespostas] = useState(null);
+  const [respostas, setRespostas] = useState({});
+  const [questionario, setQuestionario] = useState({});
 
   useEffect(() => {
     async function fetchData() {
-      let respostas = await getRespostasEnvio(params.envio_id);
-      setRespostas(respostas);
+      const respostas = await getRespostasEnvio(params.envio_id);
+      if (respostas) {
+        setRespostas(respostas);
+        const questionario = await getQuestionarioQuestions(
+          respostas.questionario_id,
+        );
+        setQuestionario(questionario);
+      }
     }
     fetchData();
   }, [params.envio_id]);
 
-  if (!respostas) return <div>Carregando...</div>;
+  if (
+    Object.keys(respostas).length === 0 ||
+    Object.keys(questionario).length === 0
+  )
+    return <div>Carregando...</div>;
   return (
-    <div>
-      <button onClick={() => router.back()}>Voltar</button>
-      <h2>Questionario {respostas.questionario_id}</h2>
-      <ul>
-        {respostas.respostas.map((resposta, index) => (
-          <li key={index}>
-            <p>Pergunta: {resposta.pergunta_id}</p>
-            <p>Resposta: {resposta.alternativa_id}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <QuestionariosComDetalhes
+      questionario={questionario}
+      respostas={respostas}
+    />
   );
 }
