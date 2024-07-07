@@ -169,8 +169,9 @@ export async function getQuestionarioQuestions(
 }
 
 export async function getQuestionariosEnviados(email: string) {
+  const encoded_email = encodeURIComponent(email);
   const response = await fetch(
-    `${process.env.GATEWAY_URL}/respostas?email=${email}`,
+    `${process.env.GATEWAY_URL}/respostas?email=${encoded_email}`,
     {
       method: 'GET',
       cache: 'no-store',
@@ -184,8 +185,9 @@ export async function getQuestionariosEnviados(email: string) {
 }
 
 export async function getQuestionarioPaciente(email: string) {
+  const encoded_email = encodeURIComponent(email);
   const response = await fetch(
-    `${process.env.GATEWAY_URL}/envios?email=${email}`,
+    `${process.env.GATEWAY_URL}/envios?email=${encoded_email}`,
     {
       method: 'GET',
       cache: 'no-store',
