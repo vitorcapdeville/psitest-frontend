@@ -5,13 +5,11 @@ import {
   resetPassword,
   responderQuestionario,
   signup,
-  validateEmail,
   validateResetPasswordCode,
 } from '@/app/lib/api';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 import { redirect } from 'next/navigation';
-import { getUser } from '@/app/lib/api';
 import { auth } from '@/auth';
 
 export async function authenticate(
@@ -42,10 +40,6 @@ export async function signupAction(
   const confirmPassword = formData.get('confirmPassword') as string;
   const name = formData.get('name') as string;
   const matricula = formData.get('matricula') as string;
-  const emailCheck = await validateEmail(email);
-  if (!emailCheck.valid) {
-    return 'Invalid email.';
-  }
   if (password !== confirmPassword) {
     return 'Passwords do not match.';
   }
